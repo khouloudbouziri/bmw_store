@@ -2,7 +2,6 @@ package com.example.advanced_java_project.Models;
 
 import com.example.advanced_java_project.Enums.FuelType;
 import com.example.advanced_java_project.Enums.TransmissionType;
-import com.example.advanced_java_project.Enums.VehicleType;
 import jakarta.persistence.*;
 import jdk.jfr.Description;
 import lombok.AllArgsConstructor;
