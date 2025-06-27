@@ -22,9 +22,12 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
 
-    @GetMapping("/vehicles")
+    @GetMapping()
     public ResponseEntity<Object> getAllVehicles() {
         List<Vehicle> vehicles = vehicleService.getAllVehicules();
+        if (vehicles.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No vehicles found");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(vehicles);
     }
 
@@ -32,6 +35,9 @@ public class VehicleController {
     public ResponseEntity<Object> getVehicleById(
             @PathVariable Long id) {
         Vehicle vehicle = vehicleService.getVehicleById(id);
+        if (vehicle == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vehicle not found");
+        }
         return ResponseEntity.ok(vehicle);
     }
 
@@ -39,6 +45,9 @@ public class VehicleController {
     public ResponseEntity<Object> getVehiclesByTransmissionType(
             @PathVariable TransmissionType vehicleTransmissionType) {
         List<Vehicle> vehicles = vehicleService.getVehiclesByTransmissionType(vehicleTransmissionType);
+        if (vehicles.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No vehicles found with transmission type: " + vehicleTransmissionType);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(vehicles);
     }
 
@@ -46,6 +55,9 @@ public class VehicleController {
     public ResponseEntity<Object> addVehicle(
             @RequestBody VehicleDTO vehicleDTO) {
         Vehicle savedVehicle = vehicleService.addVehicle(vehicleDTO);
+        if (savedVehicle == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid vehicle data");
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVehicle);
     }
 
@@ -54,11 +66,17 @@ public class VehicleController {
             @PathVariable Long id,
             @RequestBody VehicleDTO vehicleDTO) {
         Vehicle updatedVehicle = vehicleService.updateVehicle(id, vehicleDTO);
+        if (updatedVehicle == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vehicle not found or invalid data");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(updatedVehicle);
     }
 
     @DeleteMapping("/deleteVehicle/{id}")
     public ResponseEntity<Object> deleteVehicle(@PathVariable Long id) {
+        if (!vehicleService.vehicleExists(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vehicle not found");
+        }
         vehicleService.deleteVehicule(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
