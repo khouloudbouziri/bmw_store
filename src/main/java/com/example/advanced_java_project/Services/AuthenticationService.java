@@ -7,7 +7,6 @@ import com.example.advanced_java_project.Security.AuthenticationRequest;
 import com.example.advanced_java_project.Security.AuthenticationResponse;
 import com.example.advanced_java_project.Security.JwtService;
 import com.example.advanced_java_project.Security.RegisterRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +34,7 @@ public class AuthenticationService {
                 .lastname(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(Role.valueOf(request.getRole()))
                 .build();
         userRepository.save(user);
 
