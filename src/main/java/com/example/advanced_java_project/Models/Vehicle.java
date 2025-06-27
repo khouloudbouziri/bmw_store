@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 
 import java.time.LocalDate;
 
@@ -19,6 +21,12 @@ import java.time.LocalDate;
 @Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "vehicle_type", discriminatorType = DiscriminatorType.STRING)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "vehicle_type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Car.class, name = "CAR"),
+        @JsonSubTypes.Type(value = Motorcycle.class, name = "MOTORCYCLE"),
+        @JsonSubTypes.Type(value = Truck.class, name = "TRUCK")
+})
 public abstract class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

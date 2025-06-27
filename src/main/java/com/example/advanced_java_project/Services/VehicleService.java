@@ -10,7 +10,6 @@ import com.example.advanced_java_project.Models.Vehicle;
 import com.example.advanced_java_project.Repositories.VehicleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -145,5 +144,9 @@ public class VehicleService {
         vehicle.setAddedDate(LocalDate.now());
         vehicle.setImage(dto.getImage());
         vehicle.setQuantity(dto.getQuantity());
+    }
+
+    public boolean vehicleExists(Long id) {
+        return vehicleRepository.existsById(id);
     }
 }
