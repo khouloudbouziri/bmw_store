@@ -2,12 +2,12 @@ package com.example.advanced_java_project.Controllers;
 
 import com.example.advanced_java_project.Dtos.CartItemDTO;
 import com.example.advanced_java_project.Services.CartService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/{userId}/cart")
 public class CartController {

@@ -12,6 +12,7 @@ import com.example.advanced_java_project.Utils.Constants;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(Constants.VEHICLE_PATH)
 public class VehicleController {
