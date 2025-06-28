@@ -42,6 +42,7 @@ public class JwtService {
         Map<String, Object> extraClaims = new HashMap<>();
         if (userDetails instanceof com.example.advanced_java_project.Models.User user) {
             extraClaims.put("role", user.getRole().name()); // add role to jwt token
+            extraClaims.put("id", user.getId()); // add user id to jwt token
         }
         return generateToken(extraClaims, userDetails);
     }
