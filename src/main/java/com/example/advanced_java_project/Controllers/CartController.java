@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/{userId}/cart")
@@ -29,7 +31,7 @@ public class CartController {
             @PathVariable Long userId,
             @RequestBody CartItemDTO cartItemDTO) {
         this.cartService.addItem(userId, cartItemDTO.getVehicleId(), cartItemDTO.getQuantity());
-        return ResponseEntity.status(HttpStatus.CREATED).body("Item added to cart successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "Item added to cart successfully"));
     }
 
     @PutMapping("/updateCartItem/{vehicleId}")
@@ -38,7 +40,7 @@ public class CartController {
             @PathVariable Long vehicleId,
             @RequestParam int quantity) {
         this.cartService.updateQuantity(userId, vehicleId, quantity);
-        return ResponseEntity.status(HttpStatus.OK).body("Cart item updated successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "Cart item updated successfully"));
     }
 
     @DeleteMapping("/removeFromCart/{vehicleId}")
@@ -46,6 +48,6 @@ public class CartController {
             @PathVariable Long userId,
             @PathVariable Long vehicleId) {
         this.cartService.removeItem(userId, vehicleId);
-        return ResponseEntity.status(HttpStatus.OK).body("Item removed from cart successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "Item removed from cart successfully"));
     }
 }
