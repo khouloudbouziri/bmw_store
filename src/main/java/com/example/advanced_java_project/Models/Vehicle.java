@@ -2,6 +2,7 @@ package com.example.advanced_java_project.Models;
 
 import com.example.advanced_java_project.Enums.FuelType;
 import com.example.advanced_java_project.Enums.TransmissionType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jdk.jfr.Description;
 import lombok.AllArgsConstructor;
@@ -23,9 +24,9 @@ import java.time.LocalDate;
 @DiscriminatorColumn(name = "vehicle_type", discriminatorType = DiscriminatorType.STRING)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "vehicle_type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = Car.class, name = "CAR"),
-        @JsonSubTypes.Type(value = Motorcycle.class, name = "MOTORCYCLE"),
-        @JsonSubTypes.Type(value = Truck.class, name = "TRUCK")
+        @JsonSubTypes.Type(value = Car.class, name = "car"),
+        @JsonSubTypes.Type(value = Motorcycle.class, name = "motorcycle"),
+        @JsonSubTypes.Type(value = Truck.class, name = "truck")
 })
 public abstract class Vehicle {
     @Id
@@ -76,4 +77,10 @@ public abstract class Vehicle {
     @Column(name = "quantity")
     @Description("Vehicle available quantity")
     private int quantity;
+
+    @Transient
+    @JsonProperty("vehicleType")
+    public String getVehicleType() {
+        return this.getClass().getSimpleName().toLowerCase(); // returns "car", "motorcycle", or "truck"
+    }
 }
